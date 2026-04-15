@@ -35,3 +35,28 @@ def encrypt_text(text, shift1, shift2):
             key_data += "0"
 
     return encrypted, key_data
+
+
+def decrypt_text(text, key_data, shift1, shift2):
+    decrypted = ""
+
+    for i in range(len(text)):
+        ch = text[i]
+        code = key_data[i]
+
+        if code == "1":
+            decrypted += shift_letter(ch, -(shift1 * shift2), 'a')
+
+        elif code == "2":
+            decrypted += shift_letter(ch, shift1 + shift2, 'a')
+
+        elif code == "3":
+            decrypted += shift_letter(ch, shift1, 'A')
+
+        elif code == "4":
+            decrypted += shift_letter(ch, -(shift2 ** 2), 'A')
+
+        else:
+            decrypted += ch
+
+    return decrypted
