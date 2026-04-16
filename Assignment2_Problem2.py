@@ -145,3 +145,59 @@ def parse_neg(tokens, pos):
         return ('neg', val), pos
 
     return parse_atom(tokens, pos)
+
+
+def parse_atom(tokens, pos):
+    if pos >= len(tokens):
+        raise Exception("end")
+
+    tok = tokens[pos]
+
+    if tok[0] == 'NUM':
+        return tok[1], pos + 1
+    elif tok[0] == 'LPAREN':
+        pos = pos + 1
+        val, pos = parse_add(tokens, pos)
+        if pos >= len(tokens) or tokens[pos][0] != 'RPAREN':
+            raise Exception("no close")
+        return val, pos + 1
+    else:
+        raise Exception("bad")
+
+
+def calc(tree):
+    if isinstance(tree, (int, float)):
+        return float(tree)
+
+    if tree[0] == 'neg':
+        return -calc(tree[1])
+
+    op = tree[0]
+    left = calc(tree[1])
+    right = calc(tree[2])
+
+    if op == '+':
+        return left + right
+    elif op == '-':
+        return left - right
+    elif op == '*':
+        return left * right
+    elif op == '/':
+        if right == 0:
+            raise Exception("div")
+        return left / right
+
+
+def tree_to_str(tree):
+    if isinstance(tree, (int, float)):
+        if tree == int(tree):
+            return str(int(tree))
+        return str(tree)
+
+    if tree[0] == 'neg':
+        return "(neg " + tree_to_str(tree[1]) + ")"
+
+    op = tree[0]
+    left = tree_to_str(tree[1])
+    right = tree_to_str(tree[2])
+    return "(" + op + " " + left + " " + right + ")"
