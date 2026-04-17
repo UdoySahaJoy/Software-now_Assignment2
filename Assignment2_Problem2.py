@@ -114,3 +114,14 @@ def process(expr):
             'tokens': 'ERROR',
             'result': 'ERROR'
         }
+    
+def parse_add(tokens, pos):
+    left, pos = parse_mul(tokens, pos)
+
+    while pos < len(tokens) and tokens[pos][0] == 'OP' and (tokens[pos][1] == '+' or tokens[pos][1] == '-'):
+        op = tokens[pos][1]
+        pos = pos + 1
+        right, pos = parse_mul(tokens, pos)
+        left = (op, left, right)
+
+    return left, pos
