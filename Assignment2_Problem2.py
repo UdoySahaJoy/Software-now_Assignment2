@@ -125,3 +125,23 @@ def parse_add(tokens, pos):
         left = (op, left, right)
 
     return left, pos
+
+
+def parse_mul(tokens, pos):
+    left, pos = parse_neg(tokens, pos)
+
+    while pos < len(tokens) and tokens[pos][0] == 'OP' and (tokens[pos][1] == '*' or tokens[pos][1] == '/'):
+        op = tokens[pos][1]
+        pos = pos + 1
+        right, pos = parse_neg(tokens, pos)
+        left = (op, left, right)
+
+    return left, pos
+
+def parse_neg(tokens, pos):
+    if pos < len(tokens) and tokens[pos][0] == 'OP' and tokens[pos][1] == '-':
+        pos = pos + 1
+        val, pos = parse_neg(tokens, pos)
+        return ('neg', val), pos
+
+    return parse_atom(tokens, pos)
