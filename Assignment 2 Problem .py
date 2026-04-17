@@ -60,3 +60,16 @@ def decrypt_text(text, key_data, shift1, shift2):
             decrypted += ch
 
     return decrypted
+def encryption_function(shift1, shift2):
+    with open(raw_file, "r") as file:
+        text = file.read()
+
+    encrypted_text, key_data = encrypt_text(text, shift1, shift2)
+
+    with open(encrypted_file, "w") as file:
+        file.write(encrypted_text)
+
+    with open(key_file, "w") as file:
+        file.write(key_data)
+
+    print("Encryption complete.")
