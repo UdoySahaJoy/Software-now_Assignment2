@@ -73,3 +73,22 @@ def encryption_function(shift1, shift2):
         file.write(key_data)
 
     print("Encryption complete.")
+    
+def decryption_function(shift1, shift2):
+        
+    with open(encrypted_file, "r") as file:
+        encrypted_text = file.read()
+
+    with open(key_file, "r") as file:
+        key_data = file.read()
+
+    if len(encrypted_text) != len(key_data):
+        print("encrypted text and key file do not match.")
+        return
+
+    decrypted_text = decrypt_text(encrypted_text, key_data, shift1, shift2)
+
+    with open(decrypted_file, "w") as file:
+        file.write(decrypted_text)
+
+    print("Decryption complete.")
