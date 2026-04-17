@@ -92,3 +92,28 @@ def decryption_function(shift1, shift2):
         file.write(decrypted_text)
 
     print("Decryption complete.")
+
+def verification_function():
+    with open(raw_file, "r") as file:
+        original_text = file.read()
+
+    with open(decrypted_file, "r") as file:
+        decrypted_text = file.read()
+
+    if original_text == decrypted_text:
+        print("Decryption successful.")
+    else:
+        print("Decryption failed.")
+
+
+def main():
+    shift1 = int(input("Enter the value of shift1: "))
+    shift2 = int(input("Enter the value of shift2: "))
+
+    encryption_function(shift1, shift2)
+    decryption_function(shift1, shift2)
+    verification_function()
+
+
+if __name__ == "__main__":
+    main()
